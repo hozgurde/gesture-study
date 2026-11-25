@@ -1,0 +1,6 @@
+name: gesture-study
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - ffmpeg   # used by tools/make_demo_videos.py and tools/prepare_stimuli.py

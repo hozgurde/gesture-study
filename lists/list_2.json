@@ -1,0 +1,79 @@
+{
+ "list_index": 2,
+ "n_trials": 8,
+ "estimated_minutes": 7,
+ "trials": [
+  {
+   "left": {
+    "src": "stimuli/1dabdc371125.mp4"
+   },
+   "right": {
+    "src": "stimuli/051bdc937375.mp4"
+   },
+   "attention_target": null
+  },
+  {
+   "left": {
+    "src": "stimuli/8c312c491e03.mp4"
+   },
+   "right": {
+    "src": "stimuli/e13ec8ec12b2.mp4"
+   },
+   "attention_target": 2
+  },
+  {
+   "left": {
+    "src": "stimuli/5e15d4d6e86d.mp4"
+   },
+   "right": {
+    "src": "stimuli/3bcd365004e5.mp4"
+   },
+   "attention_target": null
+  },
+  {
+   "left": {
+    "src": "stimuli/8c312c491e03.mp4"
+   },
+   "right": {
+    "src": "stimuli/e13ec8ec12b2.mp4"
+   },
+   "attention_target": null
+  },
+  {
+   "left": {
+    "src": "stimuli/3bcd365004e5.mp4"
+   },
+   "right": {
+    "src": "stimuli/34e2f374e5c6.mp4"
+   },
+   "attention_target": null
+  },
+  {
+   "left": {
+    "src": "stimuli/4cd241b80602.mp4"
+   },
+   "right": {
+    "src": "stimuli/e13ec8ec12b2.mp4"
+   },
+   "attention_target": null
+  },
+  {
+   "left": {
+    "src": "stimuli/8c312c491e03.mp4"
+   },
+   "right": {
+    "src": "stimuli/e13ec8ec12b2.mp4"
+   },
+   "attention_target": 0
+  },
+  {
+   "left": {
+    "src": "stimuli/1dabdc371125.mp4"
+   },
+   "right": {
+    "src": "stimuli/7792442b8192.mp4"
+   },
+   "attention_target": null
+  }
+ ]
+}

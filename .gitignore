@@ -1,0 +1,9 @@
+# Private: maps hashed video names to systems. Never publish next to the study.
+tools/stimuli_manifest.csv
+
+# Original renders and collected data
+raw_videos/
+results/
+
+.DS_Store
+__pycache__/
