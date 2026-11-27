@@ -5,7 +5,7 @@ const CONFIG = {
 
   // DataPipe experiment ID (12 characters, from pipe.jspsych.org).
   // Leave empty ("") while testing: data is downloaded to your computer instead.
-  DATAPIPE_ID: "",
+  DATAPIPE_ID: "yX60Fm6IHF4A",
 
   // How many trial lists exist in lists/ (list_0.json ... list_{N-1}.json).
   // Must match "Number of conditions" in your DataPipe experiment settings.

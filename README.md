@@ -8,7 +8,7 @@ with no server of your own.
                         │   videos ◄── Cloudflare R2 (or stimuli/ while testing)
                         │
                         ├─ start: ask DataPipe "which list?" ─► 0, 1, 2, 3, 0, 1, ...
-                        └─ end:   send CSV to DataPipe ─► saved as a file in your OSF project
+                        └─ end:   send CSV to DataPipe ─► saved as a file in your Google Drive
                                   then redirect back to Prolific with the completion code
 ```
 
@@ -16,8 +16,8 @@ with no server of your own.
 |---|---|---|
 | **jsPsych** | JavaScript library for browser experiments | Runs the screens: consent, instructions, fullscreen, video trials, saving |
 | **GitHub Pages** | Free static website hosting from a GitHub repo | Gives the study a public URL (`https://you.github.io/gesture-study/`) |
-| **DataPipe** | Free service by the jsPsych team (pipe.jspsych.org) | Receives each participant's data file and writes it to OSF; hands out list numbers in rotation |
-| **OSF** | Open Science Framework (osf.io) | Where the data files end up |
+| **DataPipe** | Free service by the jsPsych team (pipe.jspsych.org) | Receives each participant's data file and writes it to Google Drive; hands out list numbers in rotation |
+| **Google Drive** | Your Drive account | Where the data files end up |
 | **Cloudflare R2** | Object storage with free downloads | Hosts the real video files |
 
 ## Files
@@ -93,23 +93,25 @@ For audio studies, set `PLAYBACK: "sequential"` and `MUTED: false` in `js/config
 Because the repo is public, `.gitignore` keeps out `raw_videos/`, `results/` and the
 **manifest** (it reveals which hash is which system). Keep the manifest backed up somewhere private.
 
-## 4. Save data to OSF with DataPipe
+## 4. Save data to Google Drive with DataPipe
 
-1. Create a project on **osf.io** (keep it private), e.g. "Gesture study data".
-2. On OSF: **Profile → Settings → Personal access tokens → Create token** with `osf.full_write`. Copy it.
-3. Go to **https://pipe.jspsych.org**, sign up, **Account → Settings → Set OSF Token**, and paste the token.
-4. **Create Experiment**: choose your OSF project, then a component (it can create one, e.g. "data").
-5. In the experiment settings:
-   - **Enable data collection**: on
-   - **Enable condition assignment**: on, **Number of conditions** = `N_LISTS`
-6. Copy the 12-character **Experiment ID** into `DATAPIPE_ID` in `js/config.js`, then commit and push.
+1. Go to **https://pipe.jspsych.org**, sign up, and connect your Google account when asked.
+2. Click **New Experiment**, choose **Google Drive**, and enter a title (e.g. `gesture-study`).
+3. Optionally click **Choose Drive folder**; otherwise files go to `My Drive/DataPipe`.
+4. Click **Create**, then in the experiment settings:
+   - **Accept new data**: on (turn it off outside collection windows; the ID is public in the page source)
+   - **Validation**: leave CSV allowed
+   - **Condition assignment**: on, **n** = `N_LISTS` (set before recruiting; don't lower it mid-study)
+   - **Session limit**: target N plus a buffer
+   - **Psych-DS metadata**: off
+5. Copy the **Experiment ID** into `DATAPIPE_ID` in `js/config.js`, then commit and push.
 
 Now (without `?debug=1`) each participant gets the next list in rotation, and their CSV appears in the
-OSF component when they finish. If an upload fails, the file is downloaded on the participant's
+Drive folder when they finish. If an upload fails, the file is downloaded on the participant's
 computer and they're asked to send it to you.
 
 Test it: open the site without `debug`, but with `&list=0` (so you don't use up a rotation slot), finish,
-and check that a file appeared in OSF.
+and check that a file appeared in Drive. Note this test file lands in the same folder as real data.
 
 ## 5. Host the real videos on Cloudflare R2
 
@@ -147,7 +149,7 @@ so keep real videos out of the repo.
 - [ ] Replace the consent text in `js/experiment.js` with your IRB-approved version.
 - [ ] Bump `STUDY_VERSION` in `config.js` whenever you change anything.
 - [ ] Run the full study yourself in Chrome, Firefox and Safari (Mac).
-- [ ] Pilot with 5–10 Prolific participants, then run `decode_results.py` on the OSF files and check every column.
+- [ ] Pilot with 5–10 Prolific participants, then run `decode_results.py` on the downloaded Drive files and check every column.
 - [ ] Check the feedback answers for "videos failed or stuttered".
 - [ ] Check timing: the median `time_elapsed` at the end vs. what you pay for.
 
