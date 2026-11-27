@@ -7,7 +7,16 @@
  *   ?list=1    use lists/list_1.json instead of asking DataPipe
  */
 
+// ---- R2 video test ----------------------------------------------------------
+// true: run only the short R2 test block below (no DataPipe, no Prolific).
+// false: run the normal study.
+const VIDEO_TEST = true;
+const STIMULUS_BASE = "https://pub-a6a8ec460eda40c099c355d82f39e3c8.r2.dev/"; // public, ends with /
+const TEST_FILES = ["3_testaudio_0_2_2.mp4", "3_testaudio_0_3_3.mp4"];
+
 const jsPsych = initJsPsych({
+  // Test mode only: show the collected data at the end.
+  on_finish: VIDEO_TEST ? () => jsPsych.data.displayData() : undefined,
   show_progress_bar: true,
   auto_update_progress_bar: false,
   message_progress_bar: "Progress",
@@ -265,4 +274,40 @@ async function main() {
   await jsPsych.run(timeline);
 }
 
-main();
+// Minimal R2 test: preload -> Start click (lets videos autoplay with sound)
+// -> both videos in random order. Runs before any DataPipe call, so it
+// doesn't use up a condition number.
+async function runVideoTest() {
+  const stimuli = TEST_FILES.map((file) => ({ file, sources: [STIMULUS_BASE + file] }));
+
+  await jsPsych.run([
+    {
+      type: jsPsychPreload,
+      video: stimuli.flatMap((s) => s.sources),
+      message: "<p>Loading videos…</p>",
+      data: { task: "preload" },
+    },
+    {
+      type: jsPsychHtmlButtonResponse,
+      stimulus: "<p>Video test. Press Start to play the videos.</p>",
+      choices: ["Start"],
+      data: { task: "start" },
+    },
+    {
+      timeline: [{
+        type: jsPsychVideoButtonResponse,
+        stimulus: jsPsych.timelineVariable("sources"),
+        prompt: "<p>Placeholder question: did this video play correctly?</p>",
+        choices: ["Yes", "No"],
+        response_allowed_while_playing: false,
+        width: 640,
+        data: { task: "video_test", video: jsPsych.timelineVariable("file") },
+      }],
+      timeline_variables: stimuli,
+      randomize_order: true,
+    },
+  ]);
+}
+
+if (VIDEO_TEST) runVideoTest();
+else main();
